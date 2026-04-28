@@ -3,10 +3,10 @@ from fastapi import APIRouter, Form
 from typing import Optional
 from api.request import APIExtractor
 
-app = APIRouter()
+router = APIRouter()
 
 
-@app.get("/")
+@router.get("/")
 def root():
     return {
         "message": "Welcome to Bifrost API !",
@@ -14,7 +14,7 @@ def root():
     }
 
 
-@app.post("/api/form")
+@router.post("/form")
 def print_data(
     api_name_source: str = Form(...),
     authentification_type: str = Form(...),
@@ -36,7 +36,7 @@ def print_data(
         print(f"Erreur : {e}")
 
 
-@app.get("/api/info", tags=["Info"])
+@router.get("/info", tags=["Info"])
 def info():
     """Returns server information and available endpoints"""
     return {
@@ -59,7 +59,7 @@ def info():
     }
 
 
-@app.get("/api/health", tags=["Health"])
+@router.get("/health", tags=["Health"])
 def health_check():
     """Health check endpoint for monitoring"""
     return {
@@ -70,4 +70,4 @@ def health_check():
 
 if __name__ == "__main__":
     
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(router, host="0.0.0.0", port=8000)
