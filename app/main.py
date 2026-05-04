@@ -29,8 +29,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(routers_auth.app, prefix="/auth")
-app.include_router(sources.app, prefix="/api")
+app.include_router(routers_auth.router, prefix="/auth")
+app.include_router(sources.router, prefix="/api")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
