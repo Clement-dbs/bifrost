@@ -63,9 +63,6 @@ def delete_one_source(name: str):
     remove_source(name)
     return {"code": 200, "message": f"Source '{name}' supprimée"}
 
-
-
-
 @app.get("/info", tags=["Info"])
 def info():
     """Returns server information and available endpoints"""
