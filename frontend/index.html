@@ -6,39 +6,29 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="style.css">
-        <script src="script.js"></script>
-        <script src="tailwind_config.js"></script>
-        <script src="app.js"></script>
         <title>Bifrost</title>
     </head>
 
     <body class="grid-bg min-h-screen">
 
-
     <!-- HEADER -->
     <header class="relative sticky top-0 z-50 border-b border-white/5" style="background: rgba(10,10,15,.85); backdrop-filter: blur(16px);">
     <div class="max-w-7xl mx-auto px-6 h-14 flex items-center gap-8">
-        <!-- Logo -->
         <div class="flex items-center gap-2.5 mr-4">
-        <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style="background: linear-gradient(135deg,#6C63FF,#38BDF8)">🌈</div>
-        <span class="font-display font-700 text-base tracking-tight bifrost-text">Bifrost</span>
+            <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style="background: linear-gradient(135deg,#6C63FF,#38BDF8)">🌈</div>
+            <span class="font-display font-700 text-base tracking-tight bifrost-text">Bifrost</span>
         </div>
-
-        <!-- Nav -->
         <nav class="flex gap-6">
-        <a class="nav-link active text-sm text-mist cursor-pointer" onclick="switchTab('view', this)">Vue d'ensemble</a>
-        <a class="nav-link text-sm text-mist cursor-pointer" onclick="switchTab('source', this)">Sources API</a>
-        <a class="nav-link text-sm text-mist cursor-pointer" onclick="switchTab('planification', this)">Planification</a>
-        <a class="nav-link text-sm text-mist cursor-pointer" onclick="switchTab('export', this)">Export</a>
+            <a class="nav-link active text-sm text-mist cursor-pointer" onclick="switchTab('view', this)">Vue d'ensemble</a>
+            <a class="nav-link text-sm text-mist cursor-pointer" onclick="switchTab('source', this)">Sources API</a>
+            <a class="nav-link text-sm text-mist cursor-pointer" onclick="switchTab('planification', this)">Planification</a>
         </nav>
-
-        <!-- Right -->
         <div class="ml-auto flex items-center gap-3">
-        <div class="flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-jade animate-pulse"></span>
-            <span class="text-xs text-mist">4 actives</span>
-        </div>
-        <button class="btn-primary text-sm px-4 py-1.5" onclick="switchTab('source', document.querySelectorAll('.nav-link')[1])">+ Source</button>
+            <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-jade animate-pulse"></span>
+                <span class="text-xs text-mist" id="active-count">0 actives</span>
+            </div>
+            <button class="btn-primary text-sm px-4 py-1.5" onclick="switchTab('source', document.querySelectorAll('.nav-link')[1])">+ Source</button>
         </div>
     </div>
     </header>
@@ -47,370 +37,198 @@
 
     <!-- === VUE D'ENSEMBLE === -->
     <section id="section-view" class="section active">
-        <!-- Metrics -->
         <div class="grid grid-cols-4 gap-4 mb-6">
-        <div class="rounded-xl p-5 card-glow" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist mb-2 uppercase tracking-widest">Sources actives</p>
-            <p class="text-3xl font-display font-800 text-white">4</p>
-            <p class="text-xs text-mist-dim mt-1">sur 6 configurées</p>
-        </div>
-        <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist mb-2 uppercase tracking-widest">Collectes aujourd'hui</p>
-            <p class="text-3xl font-display font-800 text-white">127</p>
-            <p class="text-xs text-jade mt-1">↑ +18 vs hier</p>
-        </div>
-        <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist mb-2 uppercase tracking-widest">Taux de succès</p>
-            <p class="text-3xl font-display font-800 text-white">98.4%</p>
-            <p class="text-xs text-mist-dim mt-1">2 erreurs / 127</p>
-        </div>
-        <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist mb-2 uppercase tracking-widest">Données stockées</p>
-            <p class="text-3xl font-display font-800 text-white">2.3 <span class="text-xl">GB</span></p>
-            <p class="text-xs text-mist-dim mt-1">CSV · JSON · S3</p>
-        </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-        <!-- Bar chart -->
-        <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Activité — 7 jours</p>
-            <div class="flex items-end gap-1.5 h-28" id="bar-chart"></div>
-            <div class="flex justify-between mt-2">
-            <span class="text-xs text-mist-dim">Lun</span>
-            <span class="text-xs text-mist-dim">Mar</span>
-            <span class="text-xs text-mist-dim">Mer</span>
-            <span class="text-xs text-mist-dim">Jeu</span>
-            <span class="text-xs text-mist-dim">Ven</span>
-            <span class="text-xs text-mist-dim">Sam</span>
-            <span class="text-xs text-mist-dim font-500 text-aurora-light">Auj.</span>
+            <div class="rounded-xl p-5 card-glow" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
+                <p class="text-xs font-mono text-mist mb-2 uppercase tracking-widest">Sources actives</p>
+                <p class="text-3xl font-display font-800 text-white" id="metric-active">0</p>
+                <p class="text-xs text-mist-dim mt-1" id="metric-total">sur 0 configurées</p>
+            </div>
+            <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
+                <p class="text-xs font-mono text-mist mb-2 uppercase tracking-widest">Collectes aujourd'hui</p>
+                <p class="text-3xl font-display font-800 text-white">127</p>
+                <p class="text-xs text-jade mt-1">↑ +18 vs hier</p>
+            </div>
+            <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
+                <p class="text-xs font-mono text-mist mb-2 uppercase tracking-widest">Taux de succès</p>
+                <p class="text-3xl font-display font-800 text-white">98.4%</p>
+                <p class="text-xs text-mist-dim mt-1">2 erreurs / 127</p>
+            </div>
+            <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
+                <p class="text-xs font-mono text-mist mb-2 uppercase tracking-widest">Données stockées</p>
+                <p class="text-3xl font-display font-800 text-white">2.3 <span class="text-xl">GB</span></p>
+                <p class="text-xs text-mist-dim mt-1">CSV · JSON · S3</p>
             </div>
         </div>
 
-        <!-- Log -->
-        <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Journal récent</p>
-            <div class="space-y-1" id="log-container"></div>
-        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
+                <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Activité — 7 jours</p>
+                <div class="flex items-end gap-1.5 h-28" id="bar-chart"></div>
+                <div class="flex justify-between mt-2">
+                    <span class="text-xs text-mist-dim">Lun</span>
+                    <span class="text-xs text-mist-dim">Mar</span>
+                    <span class="text-xs text-mist-dim">Mer</span>
+                    <span class="text-xs text-mist-dim">Jeu</span>
+                    <span class="text-xs text-mist-dim">Ven</span>
+                    <span class="text-xs text-mist-dim">Sam</span>
+                    <span class="text-xs text-mist-dim font-500 text-aurora-light">Auj.</span>
+                </div>
+            </div>
+            <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
+                <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Journal récent</p>
+                <div class="space-y-1" id="log-container"></div>
+            </div>
         </div>
     </section>
 
     <!-- === SOURCES API === -->
     <section id="section-source" class="section">
         <div class="flex items-center justify-between mb-5">
-        <div>
-            <h2 class="font-display font-700 text-lg text-white">Sources configurées</h2>
-            <p class="text-xs text-mist mt-0.5">6 connecteurs · 4 actifs</p>
-        </div>
-        <button class="btn-primary" onclick="document.getElementById('add-form').classList.toggle('hidden')">+ Nouvelle source</button>
+            <div>
+                <h2 class="font-display font-700 text-lg text-white">Sources configurées</h2>
+                <p class="text-xs text-mist mt-0.5" id="source-subtitle">0 connecteurs · 0 actifs</p>
+            </div>
+            <button class="btn-primary" onclick="document.getElementById('add-form').classList.toggle('hidden')">+ Nouvelle source</button>
         </div>
 
-        <!-- List -->
+        <!-- Liste dynamique -->
         <div class="rounded-xl p-1 mb-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-        <div class="px-5">
-            <div class="source-row">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(56,189,248,.1)">🌤</div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-500 text-white">OpenWeatherMap</p>
-                <p class="text-xs text-mist-dim mt-0.5">Publique · toutes les 30 min · JSON → CSV</p>
+            <div class="px-5" id="source-list">
+                <!-- État vide par défaut -->
+                <div id="source-empty" class="py-12 text-center">
+                    <p class="text-2xl mb-2">🔌</p>
+                    <p class="text-sm text-mist">Aucune source configurée</p>
+                    <p class="text-xs text-mist-dim mt-1">Cliquez sur "+ Nouvelle source" pour commencer</p>
+                </div>
             </div>
-            <span class="badge-ok text-xs px-2.5 py-1 rounded-full">Actif</span>
-            <button class="btn-sm">Aperçu ↗</button>
-            <button class="btn-danger">Suppr.</button>
-            </div>
-            <div class="source-row">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(52,211,153,.1)">📈</div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-500 text-white">Alpha Vantage — Finance</p>
-                <p class="text-xs text-mist-dim mt-0.5">Publique · quotidien · JSON → S3</p>
-            </div>
-            <span class="badge-ok text-xs px-2.5 py-1 rounded-full">Actif</span>
-            <button class="btn-sm">Aperçu ↗</button>
-            <button class="btn-danger">Suppr.</button>
-            </div>
-            <div class="source-row">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(244,114,182,.1)">🏢</div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-500 text-white">API Interne CRM</p>
-                <p class="text-xs text-mist-dim mt-0.5">Privée · toutes les heures · JSON → PostgreSQL</p>
-            </div>
-            <span class="badge-warn text-xs px-2.5 py-1 rounded-full">En attente</span>
-            <button class="btn-danger">Suppr.</button>
-            </div>
-            <div class="source-row">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(108,99,255,.1)">🛰</div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-500 text-white">API Interne IoT</p>
-                <p class="text-xs text-mist-dim mt-0.5">Privée · temps réel · JSON → S3</p>
-            </div>
-            <span class="badge-ok text-xs px-2.5 py-1 rounded-full">Actif</span>
-            <button class="btn-sm">Aperçu ↗</button>
-            <button class="btn-danger">Suppr.</button>
-            </div>
-            <div class="source-row">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(148,163,184,.07)">🗞</div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-500 text-white">NewsAPI</p>
-                <p class="text-xs text-mist-dim mt-0.5">Publique · quotidien · JSON → CSV</p>
-            </div>
-            <span class="badge-off text-xs px-2.5 py-1 rounded-full">Inactif</span>
-            <button class="btn-danger">Suppr.</button>
-            </div>
-            <div class="source-row">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(248,113,113,.1)">⚠️</div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-500 text-white">API Logistique</p>
-                <p class="text-xs text-mist-dim mt-0.5">Privée · toutes les 15 min · JSON → PostgreSQL</p>
-            </div>
-            <span class="badge-err text-xs px-2.5 py-1 rounded-full">Erreur 401</span>
-            <button class="btn-sm">Diagnostiquer ↗</button>
-            <button class="btn-danger">Suppr.</button>
-            </div>
-        </div>
         </div>
 
-        <!-- Add form -->
-        <form action="http://localhost:8000/api/form" method="post">
-            <div id="add-form" class="hidden rounded-xl p-6 card-glow" style="background:#111118; box-shadow: 0 0 0 1px rgba(108,99,255,.2), 0 0 30px rgba(108,99,255,.07);">
-                <h3 class="font-display font-600 text-base text-white mb-5">Nouvelle source API</h3>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label for="api_name_source">Nom de la source</label>
-                        <input type="text" name="api_name_source" placeholder="Ex : Stripe API" required>
-                    </div>
-                    <div>
-                    <label for="authentification_type">Type d'authentification</label>
-                    <select name="authentification_type">
+        <!-- Formulaire ajout -->
+        <div id="add-form" class="hidden rounded-xl p-6 card-glow" style="background:#111118; box-shadow: 0 0 0 1px rgba(108,99,255,.2), 0 0 30px rgba(108,99,255,.07);">
+            <h3 class="font-display font-600 text-base text-white mb-5">Nouvelle source API</h3>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label>Nom de la source</label>
+                    <input type="text" id="api_name_source" placeholder="Ex : Stripe API">
+                </div>
+                <div>
+                    <label>Type d'authentification</label>
+                    <select id="authentification_type">
                         <option>Publique (sans auth)</option>
                         <option>Clé API (header)</option>
                         <option>Bearer Token</option>
                         <option>OAuth 2.0</option>
                         <option>Basic Auth</option>
                     </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label for="api_url">URL de l'endpoint</label>
-                    <input type="text" name="api_url" placeholder="https://api-exemple.com" required>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label for="api_key">Clé / Token (si requis)</label>
-                        <input type="text" name="api_key" placeholder="sk_...">    
-                    </div>
-                    <div>
-                        <label for="response_format">Format de réponse</label>
-                        <select name="response_format">
-                            <option>JSON</option>
-                            <option>CSV</option>
-                            <option>XML</option>
-                            <option>Texte brut</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mb-5">
-                    <label for="header_params">Headers supplémentaires (JSON)</label>
-                    <input type="text" name="header_params" placeholder='{"Content-Type": "application/json", "lang": "fr"}'>
-                </div>
-                <div class="flex gap-3 justify-end">
-                    <button class="btn-ghost" type="reset">Annuler</button>
-                    <button class="btn-primary" type="submit">Tester & Sauvegarder</button>
                 </div>
             </div>
-        </form>
+            <div class="mb-4">
+                <label>URL de l'endpoint</label>
+                <input type="text" id="api_url" placeholder="https://api-exemple.com">
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label>Clé / Token (si requis)</label>
+                    <input type="text" id="api_key" placeholder="sk_...">
+                </div>
+                <div>
+                    <label>Format de réponse</label>
+                    <select id="response_format">
+                        <option>JSON</option>
+                        <option>CSV</option>
+                        <option>XML</option>
+                        <option>Texte brut</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-5">
+                <label>Headers supplémentaires (JSON)</label>
+                <input type="text" id="header_params" placeholder='{"Content-Type": "application/json"}'>
+            </div>
+
+            <!-- Feedback état -->
+            <div id="form-feedback" class="hidden mb-4 px-4 py-3 rounded-lg text-sm"></div>
+
+            <div class="flex gap-3 justify-end">
+                <button class="btn-ghost" onclick="resetForm()">Annuler</button>
+                <button class="btn-primary" id="submit-btn" onclick="submitSource()">Tester & Sauvegarder</button>
+            </div>
+        </div>
     </section>
 
     <!-- === PLANIFICATION === -->
     <section id="section-planification" class="section">
         <div class="grid grid-cols-2 gap-4 mb-4">
-
-        <!-- Tasks list -->
+            <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
+                <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Tâches planifiées</p>
+                <div class="space-y-3" id="planning-list">
+                    <p class="text-xs text-mist-dim">Aucune tâche planifiée</p>
+                </div>
+            </div>
+            <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
+                <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Nouvelle tâche</p>
+                <div class="space-y-3">
+                    <div>
+                        <label>Source</label>
+                        <select id="planning-source">
+                            <option value="">— Sélectionner une source —</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Fréquence</label>
+                        <select>
+                            <option>Temps réel (webhook)</option>
+                            <option>Toutes les 5 min</option>
+                            <option>Toutes les 15 min</option>
+                            <option>Toutes les 30 min</option>
+                            <option>Toutes les heures</option>
+                            <option>Quotidien</option>
+                            <option>Hebdomadaire</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Destination de stockage</label>
+                        <select>
+                            <option>CSV local</option>
+                            <option>JSON local</option>
+                            <option>SQLite</option>
+                            <option>PostgreSQL</option>
+                            <option>S3 / Object Storage</option>
+                            <option>BigQuery</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary w-full mt-2">Planifier la collecte</button>
+                </div>
+            </div>
+        </div>
         <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Tâches planifiées</p>
-            <div class="space-y-3">
-            <div class="flex items-center gap-3">
-                <button class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
-                <div class="flex-1">
-                <p class="text-sm font-500 text-white">OpenWeatherMap</p>
-                <p class="text-xs text-mist-dim">Toutes les 30 min · prochaine dans 14 min</p>
-                </div>
-                <span class="badge-ok text-xs px-2.5 py-1 rounded-full">En cours</span>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
-                <div class="flex-1">
-                <p class="text-sm font-500 text-white">Alpha Vantage</p>
-                <p class="text-xs text-mist-dim">Quotidien · 08:00</p>
-                </div>
-                <span class="badge-ok text-xs px-2.5 py-1 rounded-full">En cours</span>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="toggle off" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
-                <div class="flex-1">
-                <p class="text-sm font-500 text-white">NewsAPI</p>
-                <p class="text-xs text-mist-dim">Quotidien · 07:00</p>
-                </div>
-                <span class="badge-off text-xs px-2.5 py-1 rounded-full">En pause</span>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="toggle on" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
-                <div class="flex-1">
-                <p class="text-sm font-500 text-white">API Interne IoT</p>
-                <p class="text-xs text-mist-dim">Temps réel (webhook)</p>
-                </div>
-                <span class="badge-ok text-xs px-2.5 py-1 rounded-full">En cours</span>
-            </div>
-            </div>
-        </div>
-
-        <!-- New task form -->
-        <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Nouvelle tâche</p>
-            <div class="space-y-3">
-            <div>
-                <label>Source</label>
-                <select>
-                <option>OpenWeatherMap</option>
-                <option>Alpha Vantage — Finance</option>
-                <option>API Interne CRM</option>
-                <option>API Interne IoT</option>
-                <option>NewsAPI</option>
-                </select>
-            </div>
-            <div>
-                <label>Fréquence</label>
-                <select>
-                <option>Temps réel (webhook)</option>
-                <option>Toutes les 5 min</option>
-                <option>Toutes les 15 min</option>
-                <option>Toutes les 30 min</option>
-                <option>Toutes les heures</option>
-                <option>Quotidien</option>
-                <option>Hebdomadaire</option>
-                </select>
-            </div>
-            <div>
-                <label>Destination de stockage</label>
-                <select>
-                <option>CSV local</option>
-                <option>JSON local</option>
-                <option>SQLite</option>
-                <option>PostgreSQL</option>
-                <option>S3 / Object Storage</option>
-                <option>BigQuery</option>
-                </select>
-            </div>
-            <button class="btn-primary w-full mt-2">Planifier la collecte</button>
-            </div>
-        </div>
-        </div>
-
-        <!-- Alerts -->
-        <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-        <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Alertes & conditions</p>
-        <div class="grid grid-cols-3 gap-4 items-end">
-            <div>
-            <label>Échecs consécutifs avant alerte</label>
-            <input type="number" value="3" min="1" max="10">
-            </div>
-            <div>
-            <label>Action automatique</label>
-            <select>
-                <option>Envoyer un email</option>
-                <option>Notification webhook</option>
-                <option>Mettre en pause la source</option>
-                <option>Retry automatique</option>
-            </select>
-            </div>
-            <div class="flex gap-2">
-            <button class="btn-primary flex-1">Sauvegarder</button>
-            <button class="btn-ghost">Guide ↗</button>
-            </div>
-        </div>
-        </div>
-    </section>
-
-    <!-- === EXPORT === -->
-    <section id="section-export" class="section">
-        <div class="grid grid-cols-2 gap-4">
-        <!-- Destinations -->
-        <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Destinations</p>
-            <div class="space-y-2">
-            <div class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-white/5" style="border: 1px solid rgba(255,255,255,.06)">
-                <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(56,189,248,.1)">☁️</div>
-                <div class="flex-1">
-                <p class="text-sm font-500 text-white">AWS S3 / MinIO</p>
-                <p class="text-xs text-mist-dim">JSON · CSV · Parquet</p>
-                </div>
-                <span class="badge-ok text-xs px-2.5 py-1 rounded-full">Connecté</span>
-            </div>
-            <div class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-white/5" style="border: 1px solid rgba(255,255,255,.06)">
-                <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(52,211,153,.1)">🐘</div>
-                <div class="flex-1">
-                <p class="text-sm font-500 text-white">PostgreSQL</p>
-                <p class="text-xs text-mist-dim">Base de données relationnelle</p>
-                </div>
-                <span class="badge-warn text-xs px-2.5 py-1 rounded-full">Config.</span>
-            </div>
-            <div class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-white/5" style="border: 1px solid rgba(255,255,255,.06)">
-                <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(148,163,184,.07)">📄</div>
-                <div class="flex-1">
-                <p class="text-sm font-500 text-white">Fichiers locaux</p>
-                <p class="text-xs text-mist-dim">CSV · JSON — dossier local</p>
-                </div>
-                <span class="badge-ok text-xs px-2.5 py-1 rounded-full">Actif</span>
-            </div>
-            <div class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-white/5" style="border: 1px solid rgba(255,255,255,.06)">
-                <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0" style="background:rgba(251,146,60,.1)">📊</div>
-                <div class="flex-1">
-                <p class="text-sm font-500 text-white">BigQuery / Snowflake</p>
-                <p class="text-xs text-mist-dim">Data warehouse analytique</p>
-                </div>
-                <span class="badge-off text-xs px-2.5 py-1 rounded-full">Non configuré</span>
-            </div>
-            </div>
-        </div>
-
-        <!-- Manual export -->
-        <div class="rounded-xl p-5" style="background:#111118; box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);">
-            <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Export manuel</p>
-            <div class="space-y-3">
-            <div>
-                <label>Source</label>
-                <select>
-                <option>Toutes les sources</option>
-                <option>OpenWeatherMap</option>
-                <option>Alpha Vantage — Finance</option>
-                <option>API Interne IoT</option>
-                </select>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
+            <p class="text-xs font-mono text-mist uppercase tracking-widest mb-4">Alertes & conditions</p>
+            <div class="grid grid-cols-3 gap-4 items-end">
                 <div>
-                <label>Du</label>
-                <input type="date" style="color:#94A3B8">
+                    <label>Échecs consécutifs avant alerte</label>
+                    <input type="number" value="3" min="1" max="10">
                 </div>
                 <div>
-                <label>Au</label>
-                <input type="date" style="color:#94A3B8">
+                    <label>Action automatique</label>
+                    <select>
+                        <option>Envoyer un email</option>
+                        <option>Notification webhook</option>
+                        <option>Mettre en pause la source</option>
+                        <option>Retry automatique</option>
+                    </select>
+                </div>
+                <div class="flex gap-2">
+                    <button class="btn-primary flex-1">Sauvegarder</button>
+                    <button class="btn-ghost">Guide ↗</button>
                 </div>
             </div>
-            <div>
-                <label>Format</label>
-                <select>
-                <option>CSV</option>
-                <option>JSON</option>
-                <option>Parquet</option>
-                <option>Excel (.xlsx)</option>
-                </select>
-            </div>
-            <button class="btn-primary w-full mt-1">Exporter les données</button>
-            </div>
-        </div>
         </div>
     </section>
-
     </main>
+
+    <script src="tailwind_config.js"></script>
+    <script src="app.js"></script>
+    <script src="script.js"></script>
+    
     </body>
+</html>
