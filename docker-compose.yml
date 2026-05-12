@@ -11,6 +11,35 @@ services:
       - "9001:9001"
     volumes:
       - ./data/minio:/data
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: bifrost
+      POSTGRES_PASSWORD: bifrost
+      POSTGRES_DB: bifrost
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bifrost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+ 
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://bifrost:bifrost@db:5432/bifrost
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      ACCESS_TOKEN_EXPIRE_DAYS: 7
+    depends_on:
+      db:
+        condition: service_healthy
+    command: bifrost start --host 0.0.0.0 --port 8000
 
 volumes:
   minio_data:
+  postgres_data:
