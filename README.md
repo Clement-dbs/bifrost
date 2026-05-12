@@ -1,2 +1,2 @@
 # bifrost
-Plateforme web de collecte de données via API.
+Platform for collecting and orchestrating data from APIs
