@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bifrost — API Data Collection Platform</title>
+  <meta name="description" content="Bifrost connects your APIs, schedules your data collection, and exports everywhere. The lightweight alternative to Airbyte. pip install bifrost and go.">
+  <meta name="keywords" content="api data collection, api orchestration, airbyte alternative, data pipeline, python api tool, self-hosted data collection">
+  <meta name="author" content="Bifrost">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bifrost — API Data Collection, Simplified">
+  <meta property="og:description" content="Connect any HTTP API, schedule collections, export to CSV, S3, PostgreSQL. Zero infrastructure. pip install bifrost.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bifrost — API Data Collection, Simplified">
+  <meta name="twitter:description" content="The lightweight no-code platform for collecting and orchestrating API data. pip install bifrost.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Bifrost",
+    "description": "Lightweight API data collection and orchestration platform",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Linux, Windows, macOS",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="aurora-blob"></div>
+  <div class="aurora-blob"></div>
+  <div class="aurora-blob"></div>
+</div>
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="inner">
+    <span class="nav-logo">Bifrost</span>
+    <span class="nav-badge">Coming Soon</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-tag">The Rainbow Bridge for your data</div>
+      <h1>
+        Collect any API.<br>
+        <span class="line-gradient">Zero infrastructure.</span>
+      </h1>
+      <p class="hero-desc">
+        Bifrost connects your APIs, schedules your collections, and exports everywhere — CSV, S3, PostgreSQL. The lightweight open-source alternative to Airbyte. One command and you're live.
+      </p>
+
+      <div class="waitlist-wrap">
+        <div class="waitlist-form" id="heroForm">
+          <input type="email" id="heroEmail" placeholder="your@email.com" autocomplete="email">
+          <button class="btn-primary" onclick="joinWaitlist('heroEmail', 'heroForm', 'heroSuccess')">
+            Join the waitlist
+          </button>
+        </div>
+        <div class="waitlist-success" id="heroSuccess">
+          <span>✦</span> You're on the list — we'll reach out at launch.
+        </div>
+        <p class="waitlist-note">No spam. Launch notification only.</p>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-num">2 min</div>
+          <div class="stat-label">to first collection</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">Any API</div>
+          <div class="stat-label">if it returns JSON, it works</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">0 Ops</div>
+          <div class="stat-label">no kubernetes, no docker</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">Open</div>
+          <div class="stat-label">source & self-hostable</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-tag">// Features</div>
+    <h2>Everything you need.<br>Nothing you don't.</h2>
+    <p class="section-desc">Built for developers and small teams who just want their data flowing — without the DevOps overhead.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <div class="feature-title">Any HTTP Source</div>
+        <p class="feature-desc">If an API returns JSON, it's a source. No connectors to write, no schemas to define. Paste a URL, configure auth, done.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⏱</span>
+        <div class="feature-title">Smart Scheduling</div>
+        <p class="feature-desc">From real-time to daily. Set thresholds, get alerts when collections fail. APScheduler under the hood — lightweight and reliable.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📦</span>
+        <div class="feature-title">Multi-destination Export</div>
+        <p class="feature-desc">CSV, JSON, Parquet locally. S3, PostgreSQL, BigQuery for production. One toggle in the UI.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🔐</span>
+        <div class="feature-title">Auth Support</div>
+        <p class="feature-desc">API keys, Bearer tokens, Basic auth, OAuth 2.0. Credentials stored securely per user, never shared.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🖥</span>
+        <div class="feature-title">Web UI + CLI</div>
+        <p class="feature-desc">A clean no-code interface for the browser. A full CLI for power users — <code style="font-family:'DM Mono',monospace;font-size:0.8em;color:var(--frost)">bifrost start</code>, <code style="font-family:'DM Mono',monospace;font-size:0.8em;color:var(--frost)">bifrost sources list</code>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background: linear-gradient(180deg, transparent, rgba(139,92,246,0.04), transparent);">
+  <div class="container">
+    <div class="section-tag">// How it works</div>
+    <h2>From zero to collecting<br>in four steps.</h2>
+    <p class="section-desc" style="margin-bottom: 80px;">No infra, no YAML pipelines, no DAGs. Just a Python package.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Install</div>
+        <p class="step-desc">One command, no dependencies to manage manually.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Init</div>
+        <p class="step-desc">Creates your local SQLite database. Ready in seconds.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Configure</div>
+        <p class="step-desc">Add your API sources in the UI. Set auth, format, schedule, and export destination.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Collect</div>
+        <p class="step-desc">Bifrost handles the rest. Data flows automatically to your chosen destination.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-tag">// vs the alternatives</div>
+    <h2>Built for the 99%<br>that don't need Kubernetes.</h2>
+    <p class="section-desc" style="margin-bottom: 48px;">Airbyte and Airflow are exceptional tools — for teams with DevOps. Bifrost is for everyone else.</p>
+
+    <div style="background: var(--void); border: 1px solid var(--border); border-radius: 16px; overflow: hidden;">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="highlight">Bifrost</th>
+            <th>Airbyte</th>
+            <th>Airflow</th>
+            <th>n8n</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>pip install & go</td>
+            <td class="highlight check">✓</td>
+            <td class="cross">✗</td>
+            <td class="cross">✗</td>
+            <td class="cross">✗</td>
+          </tr>
+          <tr>
+            <td>No Docker required</td>
+            <td class="highlight check">✓</td>
+            <td class="cross">✗</td>
+            <td class="partial">~</td>
+            <td class="cross">✗</td>
+          </tr>
+          <tr>
+            <td>Any HTTP source</td>
+            <td class="highlight check">✓</td>
+            <td class="partial">~</td>
+            <td class="cross">✗</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td>Web UI no-code</td>
+            <td class="highlight check">✓</td>
+            <td class="check">✓</td>
+            <td class="cross">✗</td>
+            <td class="check">✓</td>
+          </tr>
+          <tr>
+            <td>CLI package</td>
+            <td class="highlight check">✓</td>
+            <td class="cross">✗</td>
+            <td class="partial">~</td>
+            <td class="cross">✗</td>
+          </tr>
+          <tr>
+            <td>Self-hostable &lt; 5€/mo</td>
+            <td class="highlight check">✓</td>
+            <td class="cross">✗</td>
+            <td class="partial">~</td>
+            <td class="partial">~</td>
+          </tr>
+          <tr>
+            <td>Focus data collection</td>
+            <td class="highlight check">✓</td>
+            <td class="check">✓</td>
+            <td class="cross">✗</td>
+            <td class="cross">✗</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <div class="section-tag" style="text-align:center">// Early access</div>
+      <h2>Be first across<br>the bridge.</h2>
+      <p>Join the waitlist. Get notified at launch !</p>
+      <div class="cta-waitlist" id="ctaForm">
+        <input type="email" id="ctaEmail" placeholder="your@email.com" autocomplete="email">
+        <button class="btn-primary" onclick="joinWaitlist('ctaEmail', 'ctaForm', 'ctaSuccess')">
+          Join waitlist
+        </button>
+      </div>
+      <div class="waitlist-success" id="ctaSuccess" style="justify-content:center; margin-top:16px;">
+        <span>✦</span> You're on the list — we'll reach out at launch.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="inner">
+    <span class="footer-logo">Bifrost</span>
+    <div class="footer-links">
+      <a href="mailto:contact.clementdubois@gmail.com">Contact</a>
+    </div>
+    <span class="footer-copy">© 2026 Bifrost. Open source.</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
