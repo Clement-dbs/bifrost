@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bifrost"
+version = "0.1.0"
+description = "Platform for collecting and orchestrating data from APIs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Bifrost", email = "contact.clementdub@gmail.com" }]
+keywords = ["api", "data", "collection", "etl", "orchestration"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "fastapi==0.111.0",
+    "uvicorn[standard]==0.29.0",
+    "sqlalchemy==2.0.30",
+    "alembic==1.13.1",
+    "psycopg2-binary==2.9.9",
+    "python-dotenv==1.0.1",
+    "passlib[bcrypt]==1.7.4",
+    "python-jose[cryptography]==3.3.0",
+    "python-multipart==0.0.9",
+    "pydantic[email]==2.7.1",
+    "httpx==0.27.0",
+    "apscheduler==3.10.4",
+    "boto3==1.34.102",
+    "click==8.1.7",
+    "rich==13.7.1",
+]
+
+[project.scripts]
+bifrost = "cli.main:cli"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bifrost_cli*", "app*", "cli*"]
+
+[tool.setuptools.package-data]
+"*" = ["frontend/**/*", "alembic/**/*", "alembic.ini"]
