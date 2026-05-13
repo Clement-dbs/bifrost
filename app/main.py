@@ -1,14 +1,20 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.routers import sources
+from app.api.routers import sources, meta
+
 
 app = FastAPI(
     title="Bifrost API",
     description="Platform for collecting and orchestrating data from APIs",
     version="0.1.0",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json",
 )
 
-app.include_router(sources.router)
+app.include_router(meta.router, prefix="/api", tags=["meta"])
+app.include_router(sources.router, prefix="/api/sources", tags=["sources"])
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,45 +25,4 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-def root():
-    return {
-        "message": "Welcome to Bifrost API !",
-        "docs": "Visit http://localhost:8000/docs for interactive API documentation",
-    }
-
-
-@app.get("/health", tags=["meta"])
-def health():
-    return {"status": "ok", "version": "0.1.0"}
-
-
-@app.get("/info", tags=["Info"])
-def info():
-    """Returns server information and available endpoints"""
-    return {
-        "app": "Bifrost FastAPI",
-        "version": "0.1.0",
-        "framework": "FastAPI",
-        "endpoints": [
-            {"method": "GET", "path": "/", "description": "Root endpoint"},
-            {"method": "GET", "path": "/api/hello", "description": "Hello endpoint"},
-            {
-                "method": "GET",
-                "path": "/api/hello?name=YourName",
-                "description": "Hello with name",
-            },
-            {"method": "GET", "path": "/api/info", "description": "Server info"},
-            {
-                "method": "GET",
-                "path": "/docs",
-                "description": "Interactive API documentation",
-            },
-            {"method": "GET", "path": "/redoc", "description": "ReDoc documentation"},
-        ],
-        "documentation": {
-            "swagger_ui": "http://localhost:8000/docs",
-            "redoc": "http://localhost:8000/redoc",
-            "openapi_json": "http://localhost:8000/openapi.json",
-        },
-    }
+app.mount("/", StaticFiles(directory="frontend/app", html=True), name="static")

@@ -169,6 +169,88 @@ def sources_list():
         db.close()
 
 
+@sources.command("create")
+@click.option("--name", prompt="Source name", help="Name of the source")
+@click.option("--url", prompt="URL", help="API endpoint URL")
+@click.option(
+    "--method",
+    default="GET",
+    show_default=True,
+    type=click.Choice(["GET", "POST", "PUT", "PATCH", "DELETE"]),
+    help="HTTP method",
+)
+@click.option(
+    "--auth-type",
+    default="none",
+    show_default=True,
+    type=click.Choice(["none", "api_key", "bearer", "basic", "oauth2"]),
+    help="Authentication type",
+)
+@click.option("--auth-value", default=None, help="API key or token")
+@click.option(
+    "--format",
+    "response_format",
+    default="json",
+    show_default=True,
+    type=click.Choice(["json", "csv", "xml", "text"]),
+    help="Response format",
+)
+def sources_create(name, url, method, auth_type, auth_value, response_format):
+    """Create a new API source."""
+
+    if auth_type != "none" and not auth_value:
+        console.print(
+            "[bold red]✗[/bold red] auth_value is required when auth_type is not 'none'."
+        )
+        return
+
+    db = SessionLocal()
+    try:
+        existing = (
+            db.query(models.ApiSource).filter(models.ApiSource.name == name).first()
+        )
+        if existing:
+            console.print(
+                f"[bold red]✗[/bold red] A source named '[cyan]{name}[/cyan]' already exists."
+            )
+            return
+
+        source = models.ApiSource(
+            name=name,
+            url=url,
+            method=method,
+            auth_type=auth_type,
+            auth_value=auth_value,
+            response_format=response_format,
+        )
+        db.add(source)
+        db.commit()
+        db.refresh(source)
+
+        console.print(
+            f"[bold green]✓[/bold green] Source '[cyan]{source.name}[/cyan]' created (id={source.id})"
+        )
+
+        table = Table(box=box.SIMPLE_HEAD, show_header=False)
+        table.add_column("Field", style="dim", width=18)
+        table.add_column("Value", style="cyan")
+        table.add_row("ID", str(source.id))
+        table.add_row("Name", source.name)
+        table.add_row("URL", source.url)
+        table.add_row("Method", source.method)
+        table.add_row("Auth type", source.auth_type)
+        table.add_row("Format", source.response_format)
+        table.add_row("Status", source.status)
+        table.add_row("Created at", str(source.created_at))
+        console.print(table)
+
+    except Exception as e:
+        db.rollback()
+        console.print(f"[bold red]✗[/bold red] Error: {e}")
+    finally:
+        db.close()
+
+
 @cli.command()
 def info():
     """Show Bifrost environment info."""
