@@ -9,6 +9,7 @@ class ApiSource(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     url = Column(String, nullable=False)
+    method = Column(String, nullable=False)
     auth_type = Column(String, default="none")
     auth_value = Column(String, nullable=True)
     response_format = Column(String, default="json")
