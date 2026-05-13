@@ -54,34 +54,49 @@ async function deleteSource(id) {
 
 // Édition — ouvre le formulaire pré-rempli
 function editSource(s) {
-    document.getElementById("api_name_source").value      = s.name;
+    document.getElementById("api_name_source").value       = s.name;
     document.getElementById("authentification_type").value = s.auth_type;
-    document.getElementById("api_url").value              = s.url;
-    document.getElementById("api_key").value              = s.api_key || "";
-    document.getElementById("response_format").value      = s.format;
-    document.getElementById("header_params").value        = s.headers || "";
+    document.getElementById("api_url").value               = s.url;
+    document.getElementById("api_key").value               = s.api_key || "";
+    document.getElementById("response_format").value       = s.format;
+    document.getElementById("header_params").value         = s.headers || "";
 
-    // Passer en mode édition
-    document.getElementById("submit-btn").textContent  = "Mettre à jour";
-    document.getElementById("submit-btn").onclick      = () => updateSource(s.name);
+    document.getElementById("submit-btn").textContent = "Mettre à jour";
+    document.getElementById("submit-btn").onclick     = () => updateSource(s.id); // ← s.id au lieu de s.name
     document.getElementById("add-form").classList.remove("hidden");
 }
 
-async function updateSource(name) {
+async function updateSource(id) { // ← id entier
     const body = {
         auth_type: document.getElementById("authentification_type").value,
         url:       document.getElementById("api_url").value,
-        api_key:   document.getElementById("api_key").value,
+        api_key:   document.getElementById("api_key").value || null,
         format:    document.getElementById("response_format").value,
-        headers:   document.getElementById("header_params").value,
+        headers:   document.getElementById("header_params").value || null,
     };
-    await fetch(`http://localhost:8000/api/sources/${encodeURIComponent(name)}`, {
+
+    const feedback = document.getElementById("form-feedback");
+
+    const res = await fetch(`http://localhost:8000/api/sources/${id}`, { // ← id numérique, pas encodeURIComponent
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
     });
-    resetForm();
-    loadSources();
+
+    if (res.ok) {
+        feedback.className = "mb-4 px-4 py-3 rounded-lg text-sm text-jade bg-jade/10";
+        feedback.textContent = "✓ Source mise à jour avec succès.";
+        feedback.classList.remove("hidden");
+        setTimeout(() => {
+            resetForm();
+            loadSources();
+        }, 1000);
+    } else {
+        const err = await res.json();
+        feedback.className = "mb-4 px-4 py-3 rounded-lg text-sm text-red-400 bg-red-400/10";
+        feedback.textContent = `✗ ${err.detail}`;
+        feedback.classList.remove("hidden");
+    }
 }
 
 async function submitSource() {

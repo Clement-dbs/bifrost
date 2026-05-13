@@ -28,6 +28,22 @@ def delete_source(source_id: int, db: Session = Depends(get_db)):
     db.delete(source)
     db.commit()
 
+@router.patch("/{source_id}", response_model=SourceOut, status_code=status.HTTP_200_OK)
+def patch_source(source_id: int, body: SourceIn, db: Session = Depends(get_db)):
+    source = db.query(ApiSource).filter(ApiSource.id == source_id).first()
+    if not source:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Source {source_id} not found.",
+        )
+    
+    for field, value in body.model_dump(exclude_unset=True).items():
+        setattr(source, field, value)
+    
+    db.commit()
+    db.refresh(source)
+    return source
+
 
 @router.get("/", status_code=status.HTTP_200_OK)
 def list_sources(db: Session = Depends(get_db)):
