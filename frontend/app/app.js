@@ -1,9 +1,11 @@
 async function loadSources() {
-
-    const res = await fetch("http://localhost:8000/api/sources");
+    const res = await fetch("http://localhost:8000/api/sources/");
+    if (!res.ok) {
+        renderSources([]);
+        return;
+    }
     const sources = await res.json();
-    renderSources(sources);
-    
+    renderSources(Array.isArray(sources) ? sources : []);
 }
 
 function renderSources(sources) {
@@ -16,7 +18,7 @@ function renderSources(sources) {
             </div>
             <span class="badge-ok text-xs px-2.5 py-1 rounded-full">${s.status}</span>
             <button class="btn-sm" onclick='editSource(${JSON.stringify(s)})'>Modifier</button>
-            <button class="btn" onclick="deleteSource('${s.name}')">Suppr.</button>
+            <button class="btn" onclick="deleteSource('${s.id}')">Suppr.</button>
         </div>
     `).join("");
 }
@@ -37,12 +39,17 @@ async function submitSource(event) {
 document.addEventListener("DOMContentLoaded", loadSources);
 
 // Suppression
-async function deleteSource(name) {
-    if (!confirm(`Supprimer "${name}" ?`)) return;
-    await fetch(`http://localhost:8000/api/sources/${encodeURIComponent(name)}`, { 
-        method: "DELETE" 
+async function deleteSource(id) {
+    if (!confirm(`Supprimer la source #${id} ?`)) return;
+    const res = await fetch(`http://localhost:8000/api/sources/${id}`, {
+        method: "DELETE"
     });
-    loadSources();
+    if (res.status === 204) {
+        loadSources();
+    } else {
+        const err = await res.json();
+        alert(`Erreur : ${err.detail}`);
+    }
 }
 
 // Édition — ouvre le formulaire pré-rempli
@@ -75,4 +82,60 @@ async function updateSource(name) {
     });
     resetForm();
     loadSources();
+}
+
+async function submitSource() {
+    const body = {
+        name:            document.getElementById("api_name_source").value,
+        url:             document.getElementById("api_url").value,
+        method:          document.getElementById("method").value,
+        auth_type:       mapAuthType(document.getElementById("authentification_type").value),
+        auth_value:      document.getElementById("api_key").value || null,
+        response_format: document.getElementById("response_format").value.toLowerCase(),
+    };
+
+    const feedback = document.getElementById("form-feedback");
+
+    const res = await fetch("http://localhost:8000/api/sources/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+    });
+
+    if (res.ok) {
+        feedback.className = "mb-4 px-4 py-3 rounded-lg text-sm text-jade bg-jade/10";
+        feedback.textContent = "✓ Source créée avec succès.";
+        feedback.classList.remove("hidden");
+        setTimeout(() => {
+            resetForm();
+            loadSources();
+        }, 1000);
+    } else {
+        const err = await res.json();
+        feedback.className = "mb-4 px-4 py-3 rounded-lg text-sm text-red-400 bg-red-400/10";
+        feedback.textContent = `✗ ${err.detail}`;
+        feedback.classList.remove("hidden");
+    }
+}
+
+function mapAuthType(label) {
+    const map = {
+        "Publique (sans auth)": "none",
+        "Clé API (header)":     "api_key",
+        "Bearer Token":         "bearer",
+        "OAuth 2.0":            "oauth2",
+        "Basic Auth":           "basic",
+    };
+    return map[label] || "none";
+}
+
+function resetForm() {
+    document.getElementById("api_name_source").value = "";
+    document.getElementById("api_url").value = "";
+    document.getElementById("api_key").value = "";
+    document.getElementById("authentification_type").selectedIndex = 0;
+    document.getElementById("response_format").selectedIndex = 0;
+    document.getElementById("form-feedback").classList.add("hidden");
+    document.getElementById("submit-btn").textContent = "Tester & Sauvegarder";
+    document.getElementById("add-form").classList.add("hidden");
 }
