@@ -74,19 +74,13 @@ export default function LandingPage() {
         >
           <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center text-sm"
-                style={{ background: 'linear-gradient(135deg,#6C63FF,#38BDF8)' }}
-              >
-                🌈
-              </div>
-              <span className="font-display font-bold text-base tracking-tight bifrost-text">Bifrost</span>
+              <span className="font-display font-bold text-2xl tracking-tight bifrost-text">Bifrost</span>
             </div>
             <div className="flex items-center gap-6">
-              <a href="#features" className="nav-link text-sm">Fonctionnalités</a>
-              <a href="#pricing"  className="nav-link text-sm">Tarifs</a>
-              <a href="#docs"     className="nav-link text-sm">Documentation</a>
-              <Link href="/dashboard" className="btn-primary text-sm px-4 py-2">
+              <a href="#features" className="nav-link">Fonctionnalités</a>
+              <a href="#pricing"  className="nav-link">Tarifs</a>
+              <a href="#docs"     className="nav-link">Documentation</a>
+              <Link href="/dashboard" className="btn-primary text-base px-4 py-2">
                 Accéder au dashboard →
               </Link>
             </div>
@@ -128,7 +122,7 @@ export default function LandingPage() {
             style={{ background: '#12121E', border: '1px solid rgba(255,255,255,0.07)', color: '#38BDF8' }}
           >
             <span style={{ color: 'rgba(232,232,240,0.3)' }}>$</span>
-            pip install bifrost-cli &amp;&amp; bifrost init
+            pip install bifrost ; bifrost start
           </div>
         </section>
 
@@ -288,15 +282,15 @@ export default function LandingPage() {
           style={{ borderColor: 'rgba(255,255,255,0.05)' }}
         >
           <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-            <span className="font-display font-bold text-sm bifrost-text">Bifrost</span>
+            <span className="font-display font-bold text-base bifrost-text">Bifrost</span>
             <div className="flex gap-6">
               {['Documentation', 'GitHub', 'Mentions légales', 'Contact'].map(l => (
-                <a key={l} href="#" className="text-xs text-mist-dim hover:text-mist transition-colors">
+                <a key={l} href="#" className="text-base text-mist-dim hover:text-mist transition-colors">
                   {l}
                 </a>
               ))}
             </div>
-            <span className="text-xs text-mist-dim">© 2026 Bifrost</span>
+            <span className="text-base text-mist-dim">© 2026 Bifrost</span>
           </div>
         </footer>
 

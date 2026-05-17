@@ -75,7 +75,7 @@ body::before {
 
 /* ── NAV LINKS ── */
 .nav-link {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--muted);
   transition: color 0.2s;
   cursor: pointer;

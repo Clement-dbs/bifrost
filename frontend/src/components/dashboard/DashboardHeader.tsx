@@ -29,13 +29,8 @@ export default function DashboardHeader({ activeSources = 0, onAddSource }: Prop
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center gap-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 mr-4 no-underline">
-          <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-sm"
-            style={{ background: 'linear-gradient(135deg,#6C63FF,#38BDF8)' }}
-          >
-            🌈
-          </div>
-          <span className="font-display font-bold text-base tracking-tight bifrost-text">
+
+          <span className="font-display font-bold text-2xl tracking-tight bifrost-text">
             Bifrost
           </span>
         </Link>
