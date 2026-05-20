@@ -36,23 +36,23 @@ def info():
             },
             {
                 "method": "POST",
-                "path": "/api/sources/",
-                "description": "Create a new API source",
+                "path": "/api/connectors/",
+                "description": "Create a new API connector",
             },
             {
                 "method": "GET",
-                "path": "/api/sources/",
-                "description": "List all sources",
+                "path": "/api/connectors/",
+                "description": "List all connectors",
             },
             {
                 "method": "GET",
-                "path": "/api/sources/{id}",
-                "description": "Get a source by ID",
+                "path": "/api/connectors/{id}",
+                "description": "Get a connector by ID",
             },
             {
                 "method": "DELETE",
-                "path": "/api/sources/{id}",
-                "description": "Delete a source",
+                "path": "/api/connectors/{id}",
+                "description": "Delete a connector",
             },
         ],
         "documentation": {

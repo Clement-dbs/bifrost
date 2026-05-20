@@ -1,7 +1,6 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import sources, meta
+from app.routers import connectors, state
 
 
 app = FastAPI(
@@ -13,8 +12,8 @@ app = FastAPI(
     openapi_url="/api/openapi.json",
 )
 
-app.include_router(meta.router, prefix="/api", tags=["meta"])
-app.include_router(sources.router, prefix="/api/sources", tags=["sources"])
+app.include_router(state.router, prefix="/api", tags=["meta"])
+app.include_router(connectors.router, prefix="/api/connectors", tags=["connectors"])
 
 app.add_middleware(
     CORSMiddleware,
